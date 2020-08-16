@@ -50,7 +50,7 @@
     
     {% for i in fooditem %}
     {% for j in foodcart %}
-    {% if fooditem.id == foodcart.id1 %}
+    {% if i.id == j.id1 %}
     <div class="item">
         
         <div class="imageclass" >
@@ -69,12 +69,11 @@
         
         
         <center>
-            <h3 style="display: inline;">Price in cart: </h3>
-            <h3 id="price" style="display: inline;"></h3>
+            <h3 style="display: inline;">Total price of dish : </h3>
+            <h3 id="price{{i.id}}" style="display: inline;"></h3>
+            <h3 style="display: inline;"> Dollars</h3>
         </center>
-        <script type="text/javascript">
-            document.getElementById("price").innerHTML ={{j.count}}*{{i.price}};
-        </script>
+        
     </div>
     </div>
     <div class="containersubmit">
@@ -97,6 +96,10 @@
 
     </form>
     </div>
+    <script type="text/javascript">
+        a=document.getElementById('price{{i.id}}')
+        a.innerHTML ={{j.count}}*{{i.price}};
+    </script>
     {% endif %}
     {% endfor %}
     {% endfor %}

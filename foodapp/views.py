@@ -1,17 +1,22 @@
 from django.shortcuts import render
-from .models import regdata,fooditem,cartitem,address,state
+from .models import regdata,fooditem,cartitem,address,state,discount
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate,login,logout
 from django.http import HttpResponse,Http404,HttpResponseRedirect 
+from django.urls import reverse
 # Create your views here.
-
+# Have set up a migration file which inputs data of states and populates state model
 
     
 def index(request):
     name= None
     if request.user.is_authenticated:
         name=request.user.username
+
+    
     return render(request, 'foodapp/index.html',{'name':name})
+     
+  
 
 
 def loginpage(request):
@@ -152,3 +157,65 @@ def cart(request):
         return HttpResponseRedirect('/cart')
     return render(request, 'foodapp/cart.html',{'fooditem':food,'name':name,'foodcart':foodcart})
 
+def checkout(request):
+    name= None
+    m=0
+    if request.user.is_authenticated:
+        activeuser=request.user
+        name=activeuser.username
+    else:
+        return render(request, 'foodapp/login.html',{'i':0})
+    if request.POST.get('submit2'):
+        if request.POST.get('choiceadr'):
+            return HttpResponseRedirect('/payment')
+        m=1 
+        
+
+        
+    foodcart=activeuser.cartitem_set.all()
+    food=fooditem.objects.all()
+    price=0
+    for i in food:
+        for j in foodcart:
+            if(i.id==j.id1):
+                price+= (i.price*j.count)
+    
+    
+    codecheck=request.POST.get('code')
+    discounts=discount.objects.all()
+    actualdisc=0
+    if discounts:
+        
+        for i in discounts:
+            if( codecheck == discounts.code):
+                actualdisc=discounts.percentdisc
+    pricediscounted=price-price*actualdisc/100
+    existingaddress=activeuser.address_set.all()
+    
+    return render(request, 'foodapp/checkout.html',{'m':m,'name':name,'price':price,'discprice':pricediscounted,'existingaddress':existingaddress })
+
+
+
+
+def createadr(request):
+    name= None
+    if request.user.is_authenticated:
+        activeuser=request.user
+        name=activeuser.username
+    else:
+        return render(request, 'foodapp/login.html',{'i':0})
+    states=state.objects.all()
+    
+    statead=request.POST.get('state')
+    city=request.POST.get('city')
+    streetad=request.POST.get('streetad')
+    pincode=request.POST.get('pincode')
+    if statead and city and streetad and pincode:
+        
+        adr=activeuser.address_set.create(state=statead,city=city,streetad=streetad,pincode=pincode)
+        adr.save()  
+        return HttpResponseRedirect('/checkout')
+    elif request.POST.get('submit'):
+        i=1
+    return render(request,'foodapp/createadr.html',{'name':name,'states':states,'i':i})
+    

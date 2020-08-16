@@ -33,8 +33,11 @@ class address(models.Model):
 
 class state(models.Model):
     state=models.CharField(max_length=50)
+    def __str__(self):
+        return self.state
 
 class discount(models.Model):
-    code=models.CharField(max_length=50)
+    code=models.CharField(max_length=50,unique=True)
+    percentdisc=models.IntegerField()
 
         

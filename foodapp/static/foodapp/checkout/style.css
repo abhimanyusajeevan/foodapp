@@ -1,0 +1,71 @@
+button
+{
+  margin-top: 15px;
+  margin-left: 50px;
+  height: 60px;
+  display: inline-block;
+  border-radius: 15px;
+    font-size: 25px;
+    width: 20%;
+  background-color: blue;
+  font-family: 'Source Sans Pro', sans-serif;
+  font-weight:400;
+  color: white;
+
+}
+#code
+{
+    margin-top: 15px;
+    margin-left: 50px;
+    height: 60px;
+    display: inline-block;
+    border-radius: 15px;
+      font-size: 25px;
+      width: 40%;
+      font-family: 'Source Sans Pro', sans-serif;
+  font-weight:400;
+  background-color: violet;
+}
+h2
+{
+    font-family: 'Source Sans Pro', sans-serif;
+    font-weight:400;
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+input
+{
+    width: 100%;
+    border: none;
+    background-color: transparent;
+}
+a
+{
+    color: white;
+}
+.addresscontainer
+{
+    background-color: gray;
+    margin-top: 50px;
+    display: flex;
+    flex-flow: column wrap;
+
+  
+}
+.wrapper
+{
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-evenly;
+    align-items: center;
+}
+.indvaddress
+{
+    display: flex;
+    flex-flow: column wrap;
+    flex-basis: 80%;
+}
+.inputchoice
+{
+    flex-basis: 10%;
+}
