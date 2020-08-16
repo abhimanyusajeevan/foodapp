@@ -12,5 +12,5 @@ path('login/logged/', views.logged, name='logged.html'),
 path('menu/', views.menu, name='menu.html'),
 path('loggedout/', views.loggedout, name='loggedout.html'),
 path('cart/', views.cart, name='cart.html'),
-path('checkout/', views.checkout, name='checkout.html'),
+#path('checkout/', views.checkout, name='checkout.html'),
 ]

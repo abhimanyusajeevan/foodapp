@@ -5,6 +5,8 @@ from django.contrib.auth import authenticate,login,logout
 from django.http import HttpResponse,Http404,HttpResponseRedirect 
 # Create your views here.
 
+
+    
 def index(request):
     name= None
     if request.user.is_authenticated:
@@ -149,25 +151,4 @@ def cart(request):
             
         return HttpResponseRedirect('/cart')
     return render(request, 'foodapp/cart.html',{'fooditem':food,'name':name,'foodcart':foodcart})
-
-def checkout(request)
-    name= None
-    if request.user.is_authenticated:
-        activeuser=request.user
-        name=activeuser.username
-    else:
-        return render(request, 'foodapp/login.html',{'i':0})
-    foodcart=activeuser.cartitem_set.all()
-    food=fooditem.objects.all()
-    price=0
-    for i in food:
-        for j in foodcart:
-            if(i.id==j.id1):
-                price+= (i.price*j.price)
-
-
-
-    return render(request, 'foodapp/cart.html',{'name':name,'price':price})
-
-
 
