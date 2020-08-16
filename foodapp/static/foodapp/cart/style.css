@@ -1,0 +1,79 @@
+.item
+{
+    margin-top: 50px;
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+
+}
+.imageclass
+{
+    flex-basis: 30%;
+    display: table;
+
+}
+.imageclass img
+{
+    display: table-cell;
+    vertical-align: middle;
+    margin: auto;
+}
+.details
+{
+    display: flex;
+    flex-flow: column nowrap;
+}
+.details h3
+{
+    font-family: 'Source Sans Pro', sans-serif;
+    font-weight: 400;
+    font-size: 30px;
+    
+}
+.details p
+{
+    font-family: 'Source Sans Pro', sans-serif;
+    font-weight: 300;
+    font-size: 20px;
+}
+
+button
+{
+  margin-top: 15px;
+  margin-left: 50px;
+  height: 60px;
+  display: block;
+  border-radius: 15px;
+    font-size: 25px;
+    width: 20%;
+  background-color: blue;
+  font-family: 'Source Sans Pro', sans-serif;
+  font-weight:400;
+  color: white;
+
+}
+input
+{
+    width: 100%;
+    border: none;
+    background-color: transparent;
+    
+}
+a
+{   
+    
+    width: 100%;
+    border: none;
+    background-color: transparent;
+    
+}
+h2
+{
+    margin: auto;
+    color: white;
+}
+.submissions
+{
+
+    margin-left: 40px;;
+}

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+{% load static %}
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>menu</title>
+    <!-- Navbar css-->
+    <link rel="stylesheet" href="{% static 'foodapp/navbar/style.css' %}">
+    <link rel="stylesheet" href="{% static 'foodapp/navbar/bootstrap.min.css' %}">
+
+    <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,300,600' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="{% static 'foodapp/menu/style.css' %}">
+</head>
+<body>
+    <div class="navbar navbar-default navbar-static-top" role="navigation">
+  <div class="container">
+  
+    <div class="navbar-header">
+      <button class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+        <span class="icon icon-bar"></span>
+        <span class="icon icon-bar"></span>
+        <span class="icon icon-bar"></span>
+      </button>
+      <a href="#" class="navbar-brand">Steak House</a>
+    </div>
+    <div class="collapse navbar-collapse">
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="/" class="smoothScroll">Home</a></li>
+        
+        <li><a href="/menu" class="smoothScroll">Menu</a></li>
+        {% if name %}
+        <li><a href="/loggedout" class="">Log out</a></li>
+        
+        <li><a href="/cart" class="">Cart</a></li>
+        <li><a href=""> Welcome {{name}} </a></li>
+        {% else %}
+        <li><a href="/registration" class="">Register</a></li>
+        <li><a href="/login" class="">Login</a></li>
+        {% endif %}
+        
+      </ul>
+    </div>
+
+  </div>
+  </div>  
+  <div class="contentmain">
+    {% for i in fooditem %}
+
+    <div class="item">
+        
+        <div class="imageclass" >
+            <img src="{{ i.img.url }}" alt="item1" style="width: 60%;">
+        </div>
+        <div class="details">
+            <h3>{{i.name}}</h3>
+            <p>{{i.description}}</p>
+            <p>Price : {{i.price}} Dollars</p>
+
+        </div>
+        
+    </div>
+    <div>
+      <form action="/menu/" method="POST">
+        {% csrf_token %}
+        <input type="hidden" name="foodid" value="{{i.id}}">
+        <button class="submittocart">
+          <input type="submit" name="submit" value="Add to cart">
+        </button>  
+      </form>
+  
+    
+    </div>
+    {% endfor %}
+    
+</div>  
+  
+</body>
