@@ -12,7 +12,9 @@ path('login/logged/', views.logged, name='logged.html'),
 path('menu/', views.menu, name='menu.html'),
 path('loggedout/', views.loggedout, name='loggedout.html'),
 path('cart/', views.cart, name='cart.html'),
-path('checkout/', views.checkout, name='checkout.html'),
+path('checkout/<int:m>/', views.checkout, name='checkout.html'),
 path('createadr/', views.createadr, name='createadr.html'),
+path('payment/', views.payment, name='payment.html'),
+path('orderconf/', views.orderconf, name='orderconf.html'),
 
 ]

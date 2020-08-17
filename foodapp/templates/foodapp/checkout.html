@@ -67,9 +67,12 @@
         <div>
             <h2><center> Choose delivery address </center></h2>
             
-            <form action="/checkout/" method="POST">
+            <form action="/payment/" method="POST">
+
                 <div class="addresscontainer">
                     {% csrf_token %}
+                    
+                    
                     {% for i in existingaddress %}
                     <div class="wrapper">
                         <input type="radio" name="choiceadr" value="{{i.id}}" class="inputchoice">
@@ -84,8 +87,10 @@
                     {% endfor %}
                     
                 </div>
-                {% if m %}
+                {% if m == 1 %}
                 <h2 style="color: red;"><center> Select address </center></h2>
+                {% elif m == 2 %}
+                <h2 style="color: red;"><center> Cart is empty </center></h2>
                 {% endif %}
                 <div>
                 <button>

@@ -1,5 +1,5 @@
-from django.shortcuts import render
-from .models import regdata,fooditem,cartitem,address,state,discount
+from django.shortcuts import render,get_object_or_404,redirect
+from .models import regdata,fooditem,cartitem,address,state,discount,indvdl_order,order
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate,login,logout
 from django.http import HttpResponse,Http404,HttpResponseRedirect 
@@ -86,11 +86,11 @@ def logged(request):
 
 def menu(request):
     food=fooditem.objects.all()
-    
+    activeuser=None
     name= None
     if request.user.is_authenticated:
         name=request.user.username
-        
+        activeuser=request.user
     foodid=request.POST.get('foodid')
     
     if foodid:
@@ -155,18 +155,15 @@ def cart(request):
         return HttpResponseRedirect('/cart')
     return render(request, 'foodapp/cart.html',{'fooditem':food,'name':name,'foodcart':foodcart})
 
-def checkout(request):
+def checkout(request,m=0):
     name= None
-    m=0
+    
     if request.user.is_authenticated:
         activeuser=request.user
         name=activeuser.username
     else:
         return render(request, 'foodapp/login.html',{'i':0})
-    if request.POST.get('submit2'):
-        if request.POST.get('choiceadr'):
-            return HttpResponseRedirect('/payment')
-        m=1 
+    
         
 
         
@@ -190,7 +187,7 @@ def checkout(request):
     pricediscounted=price-price*actualdisc/100
     existingaddress=activeuser.address_set.all()
     
-    return render(request, 'foodapp/checkout.html',{'m':m,'name':name,'price':price,'discprice':pricediscounted,'existingaddress':existingaddress })
+    return render(request, 'foodapp/checkout.html',{'m':m,'name':name,'price':price,'discprice':pricediscounted,'existingaddress':existingaddress})
 
 
 
@@ -203,7 +200,7 @@ def createadr(request):
     else:
         return render(request, 'foodapp/login.html',{'i':0})
     states=state.objects.all()
-    
+    i=0
     statead=request.POST.get('state')
     city=request.POST.get('city')
     streetad=request.POST.get('streetad')
@@ -212,8 +209,60 @@ def createadr(request):
         
         adr=activeuser.address_set.create(state=statead,city=city,streetad=streetad,pincode=pincode)
         adr.save()  
-        return HttpResponseRedirect('/checkout')
+        return HttpResponseRedirect('/checkout/0')
     elif request.POST.get('submit'):
         i=1
     return render(request,'foodapp/createadr.html',{'name':name,'states':states,'i':i})
     
+
+#paymentpage render with redirect to checkout with m=1 for blank entry of address and m=2 for blank cart
+#payment page has following post data
+    
+    #id of address object as 'choiceadr'  
+
+def payment(request):
+    name= None
+    if request.user.is_authenticated:
+        activeuser=request.user
+        name=activeuser.username
+    else:
+        return render(request, 'foodapp/login.html',{'i':0})
+    cartitem=activeuser.cartitem_set.all()
+    adrid=request.POST.get('choiceadr')
+
+    if not adrid:
+        return redirect('/checkout/1')
+    elif not cartitem:
+        return redirect('/checkout/2')
+
+    ordercls=order()
+    ordercls.username=name
+    ordercls.addressid=adrid
+    
+    ordercls.save()
+    id_now=ordercls.id
+    ordernow=get_object_or_404(order, id=id_now )
+    
+    
+    for i in cartitem:
+        
+        indv_food=get_object_or_404(fooditem,id=i.id1)
+        ordernow.price += indv_food.price * i.count
+        ordernow.save()
+        ordernow.indvdl_order_set.create(price=indv_food.price,foodid=i.id1 ,count=i.count)
+    
+    if not ordernow.price:
+        return redirect('/checkout/2')
+    
+    return render(request,'foodapp/payment.html',{'orderid':ordernow.id,'price':ordernow.price})
+
+
+def orderconf(request):
+    
+    orderid=request.POST.get('orderid')
+    orderobj=get_object_or_404(order,id=orderid)
+    orderobj.order_active=True
+    orderobj.paying_online=True
+    orderobj.order_status="Order recieved and dispatching in progress"
+    orderobj.save()
+    return render(request,'foodapp/orderconf.html',{'id':orderid,'price':orderobj.price})
