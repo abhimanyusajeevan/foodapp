@@ -93,8 +93,12 @@ def menu(request):
         activeuser=request.user
     foodid=request.POST.get('foodid')
     
+    
+
     if foodid:
         
+        if not name:
+            return render(request, 'foodapp/login.html',{'i':0})
         if activeuser.cartitem_set.filter(id1=foodid):
             item=activeuser.cartitem_set.filter(id1=foodid)
             item.update(count=item[0].count+1)
