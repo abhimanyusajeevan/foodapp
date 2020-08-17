@@ -15,7 +15,7 @@ class fooditem(models.Model):
     description = models.CharField(max_length=700,)
 
     price = models.IntegerField()
-    #img = models.ImageField(upload_to="gallery")
+    img = models.ImageField(upload_to="gallery")
     def __str__(self):
         return self.name
 

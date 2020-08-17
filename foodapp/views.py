@@ -87,12 +87,10 @@ def logged(request):
 def menu(request):
     food=fooditem.objects.all()
     
+    name= None
     if request.user.is_authenticated:
-        activeuser=request.user
-        name=activeuser.username
+        name=request.user.username
         
-    else:
-        return render(request, 'foodapp/login.html',{'i':0})
     foodid=request.POST.get('foodid')
     
     if foodid:
