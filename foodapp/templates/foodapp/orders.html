@@ -6,12 +6,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Logged in</title>
+    <title>Orders</title>
     <!-- Navbar css-->
     <link rel="stylesheet" href="{% static 'foodapp/navbar/style.css' %}">
     <link rel="stylesheet" href="{% static 'foodapp/navbar/bootstrap.min.css' %}">
 
     <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,300,600' rel='stylesheet' type='text/css'>
+    
 </head>
 <body>
   <div class="navbar navbar-default navbar-static-top" role="navigation">
@@ -47,9 +48,24 @@
     </div>
     </div>
   <div class="contentmain">
-      <h1>Logged in</h1>
-  </div>
-  </div>
-  </div>    
+    
+    {% for i in orders %}
+    
+        <div>
+            <h3>Order Id : {{i.id}}</h3>
+            <p>
+                Total price: {{i.price}}
+            </p>
+            <p>
+                Order status: {{i.order_status}}
+            </p>
 
+            
+        </div>
+
+    {% endfor %}
+    </div>
+   
+
+  
 </body>

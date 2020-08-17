@@ -75,7 +75,7 @@ def logged(request):
 
     if (user is not None):
         login(request,user)
-        return render(request, 'foodapp/logged.html')
+        return render(request, 'foodapp/logged.html',{'name':name})
         
     else:
 
@@ -266,3 +266,17 @@ def orderconf(request):
     orderobj.order_status="Order recieved and dispatching in progress"
     orderobj.save()
     return render(request,'foodapp/orderconf.html',{'id':orderid,'price':orderobj.price})
+
+def orders(request):
+
+    name=None
+    if request.user.is_authenticated:
+        activeuser=request.user
+        name=activeuser.username
+    else:
+        return render(request, 'foodapp/login.html',{'i':0})
+    
+    orderobject=order.objects.filter(username=name)
+  
+    
+    return render(request,'foodapp/orders.html',{'name':name,'orders':orderobject})

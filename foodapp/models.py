@@ -52,8 +52,7 @@ class order(models.Model):
     pay_status = models.BooleanField(default=False)
     order_delivered = models.BooleanField(default=False)
     order_status=models.CharField(max_length=500,blank=True,null=True)
-    def __str__(self):
-        return self.id
+  
     
 
 class indvdl_order(models.Model):

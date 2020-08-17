@@ -16,5 +16,6 @@ path('checkout/<int:m>/', views.checkout, name='checkout.html'),
 path('createadr/', views.createadr, name='createadr.html'),
 path('payment/', views.payment, name='payment.html'),
 path('orderconf/', views.orderconf, name='orderconf.html'),
+path('orders/', views.orders, name='orders.html'),
 
 ]
